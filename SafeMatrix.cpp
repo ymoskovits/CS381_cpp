@@ -173,54 +173,55 @@ public:
 
 int main(){
 	SafeMatrix<int> m(0, 2, 0, 2);
+	SafeMatrix<int> b(3, 9, 3, 9);
 
 	int count = 100;
-	for (int i = 0; i < 2; ++i){
-		for(int j = 0; j < 2; ++j){
-			m[i][j] = count += 700;
+
+	for (int i = m.yfirst; i <= m.ylast; ++i){
+		for(int j = m.xfirst; j <= m.xlast; ++j){
+			m[i][j] = ++count;
 		}
 	}
 
-	SafeMatrix<int> b(3, 9, 3, 9);
 	
 
-	for (int i = 3; i < 9; ++i){
-		for(int j = 3; j < 9; ++j){
+	for (int i = b.yfirst; i <= b.ylast; ++i){
+		for(int j = b.xfirst; j <= b.xlast; ++j){
 			b[i][j] = i * j;
 		}
 	}
 
-	for (int i = 0; i < 2; ++i){
-		for(int j = 0; j < 2; ++j){
-			cout << m[i][j] << " ";
-		}		cout << endl;
 
-	}
-	cout << endl << endl;
-	for (int i = 3; i < 9; ++i){
-		for(int j = 3; j < 9; ++j){
-			cout << b[i][j] << " ";
-		}		cout << endl;
-
-	}
-
-	// swap(b, m);
-	cout << "\n\n\nEQUALS \n\n\n";
-	b = m; 
-
-	for (int i = 0; i < 2; ++i){
-		for(int j = 0; j < 2; ++j){
+	for (int i = m.yfirst; i <= m.ylast; ++i){
+		for(int j = m.xfirst; j <= m.xlast; ++j){
 			cout << m[i][j] << " ";
 		}
 		cout << endl;
 	}
-	cout << endl << endl;
-	for (int i = 3; i < 9; ++i){
-		for(int j = 3; j < 9; ++j){
-			cout << b[i][j] << " ";
-		}		cout << endl;
 
+	for (int i = b.yfirst; i <= b.ylast; ++i){
+		for(int j = b.xfirst; j <= b.xlast; ++j){
+			cout << b[i][j] << " ";
+		}
+		cout << endl;
 	}
+
+	b = m;
+
+	for (int i = m.yfirst; i <= m.ylast; ++i){
+		for(int j = m.xfirst; j <= m.xlast; ++j){
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	for (int i = b.yfirst; i <= b.ylast; ++i){
+		for(int j = b.xfirst; j <= b.xlast; ++j){
+			cout << b[i][j] << " ";
+		}
+		cout << endl;
+	}
+
 
 	return 0;
 }
