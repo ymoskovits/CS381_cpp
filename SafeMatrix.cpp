@@ -8,6 +8,12 @@ public:
 	int xfirst, xlast, yfirst, ylast, xlen, ylen;
 	T **mp;
 
+	/*
+		Todo:
+			Rule of 5
+			operator<<
+	*/
+
 
 	SafeMatrix(){
 		xfirst = 0;
@@ -18,6 +24,7 @@ public:
 		ylen = 0;
 		mp = nullptr;
 	}
+
 	void swap(SafeMatrix& a, SafeMatrix& b){
 		std::swap(a.xfirst, b.xfirst);
 		std::swap(a.xlast, b.xlast);
@@ -47,7 +54,7 @@ public:
 		}
 	}
 
-	SafeMatrix(SafeMatrix& other){
+	SafeMatrix(const SafeMatrix& other){
 		xfirst = other.xfirst;
 		xlast = other.xlast;
 		yfirst = other.yfirst;
@@ -68,12 +75,12 @@ public:
 	}
 
 	SafeMatrix(SafeMatrix&& other){
-		xfirst = other.xfirst;
-		xlast = other.xlast;
-		yfirst = other.yfirst;
-		ylast = other.ylast;
-		xlen = xlast - xfirst + 1;
-		ylen = ylast - yfirst + 1;
+		// xfirst = other.xfirst;
+		// xlast = other.xlast;
+		// yfirst = other.yfirst;
+		// ylast = other.ylast;
+		// xlen = xlast - xfirst + 1;
+		// ylen = ylast - yfirst + 1;
 
 		mp = other.mp;
 		other.mp = nullptr;
@@ -89,7 +96,7 @@ public:
 	}
 
 
-	SafeMatrix& operator=(const SafeMatrix other){
+	SafeMatrix& operator=(const SafeMatrix &other){
 
 		// swap(mp, other);
 		// return *this;
@@ -100,11 +107,10 @@ public:
 		}
 
 		for(int i = 0; i < xlen; ++i){
-			for(int j = 0; j < ylen; ++j){
-				delete [] mp[i];
-			}
-			delete [] mp;
+			delete [] mp[i];
 		}
+		delete [] mp;
+		
 
 		xfirst = other.xfirst;
 		xlast = other.xlast;
@@ -152,12 +158,17 @@ public:
 	};
 
 	OpProxy operator[](int index){
+		if(index < xfirst || index > xlast){
+			throw new exception;
+		}
 		OpProxy prox(mp[index - xfirst] - yfirst);
 		return prox;
 	}
 
 
 };
+
+
 
 
 int main(){
@@ -181,29 +192,35 @@ int main(){
 
 	for (int i = 0; i < 2; ++i){
 		for(int j = 0; j < 2; ++j){
-			cout << m[i][j] << endl;
-		}
+			cout << m[i][j] << " ";
+		}		cout << endl;
+
 	}
 	cout << endl << endl;
 	for (int i = 3; i < 9; ++i){
 		for(int j = 3; j < 9; ++j){
-			cout << b[i][j] << endl;
-		}
+			cout << b[i][j] << " ";
+		}		cout << endl;
+
 	}
 
-	swap(b, m);
+	// swap(b, m);
+	cout << "\n\n\nEQUALS \n\n\n";
+	b = m; 
 
-	// for (int i = 0; i < 2; ++i){
-	// 	for(int j = 0; j < 2; ++j){
-	// 		cout << m[i][j] << endl;
-	// 	}
-	// }
-	// cout << endl << endl;
-	// for (int i = 3; i < 9; ++i){
-	// 	for(int j = 3; j < 9; ++j){
-	// 		cout << b[i][j] << endl;
-	// 	}
-	// }
+	for (int i = 0; i < 2; ++i){
+		for(int j = 0; j < 2; ++j){
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl << endl;
+	for (int i = 3; i < 9; ++i){
+		for(int j = 3; j < 9; ++j){
+			cout << b[i][j] << " ";
+		}		cout << endl;
+
+	}
 
 	return 0;
 }
