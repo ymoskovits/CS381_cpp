@@ -25,6 +25,19 @@ public:
 		mp = nullptr;
 	}
 
+
+	SafeMatrix<T> operator*(const SafeMatrix<T>& other) const{
+		if(xlen != other.ylen){
+			throw new exception;
+		}
+
+		SafeMatrix<T> res(0, ylen, 0, other.xlen);
+		// for(int i)
+
+		return res;
+
+	}
+
 	void swap(SafeMatrix& a, SafeMatrix& b){
 		std::swap(a.xfirst, b.xfirst);
 		std::swap(a.xlast, b.xlast);
@@ -164,7 +177,15 @@ public:
 		OpProxy prox(mp[index - xfirst] - yfirst);
 		return prox;
 	}
-
+	friend ostream& operator<<(ostream& os, const SafeMatrix& sm){
+		for(int i = sm.yfirst; i <= sm.ylast; ++i){
+			for(int j = sm.xfirst; j <= sm.xlast; ++j){
+				os << sm.mp[i][j] << " ";
+			}
+			os << endl;
+		}
+		return os;
+	}
 
 };
 
@@ -183,44 +204,16 @@ int main(){
 		}
 	}
 
-	
-
 	for (int i = b.yfirst; i <= b.ylast; ++i){
 		for(int j = b.xfirst; j <= b.xlast; ++j){
 			b[i][j] = i * j;
 		}
 	}
-
-
-	for (int i = m.yfirst; i <= m.ylast; ++i){
-		for(int j = m.xfirst; j <= m.xlast; ++j){
-			cout << m[i][j] << " ";
-		}
-		cout << endl;
-	}
-
-	for (int i = b.yfirst; i <= b.ylast; ++i){
-		for(int j = b.xfirst; j <= b.xlast; ++j){
-			cout << b[i][j] << " ";
-		}
-		cout << endl;
-	}
+	cout << b << endl << m;
 
 	b = m;
 
-	for (int i = m.yfirst; i <= m.ylast; ++i){
-		for(int j = m.xfirst; j <= m.xlast; ++j){
-			cout << m[i][j] << " ";
-		}
-		cout << endl;
-	}
-
-	for (int i = b.yfirst; i <= b.ylast; ++i){
-		for(int j = b.xfirst; j <= b.xlast; ++j){
-			cout << b[i][j] << " ";
-		}
-		cout << endl;
-	}
+	cout << b << endl << m;
 
 
 	return 0;
