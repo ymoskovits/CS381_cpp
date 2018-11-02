@@ -6,8 +6,9 @@ using namespace std;
 template <class T>
 class SafeMatrix{
 public:
-	int left_index, right_index, top_index, bottom_index, length, height;
-	T **mp;
+	int left_index, right_index, top_index, bottom_index, length, height;	T **mp;
+
+
 
 	/*
 		Todo:
@@ -105,8 +106,8 @@ public:
 		right_index = other.right_index;
 		top_index = other.top_index;
 		bottom_index = other.bottom_index;
-		length = right_index - left_index + 1;
-		height = bottom_index - top_index + 1;
+		length = other.length;
+		height = other.height;
 
 		mp = new T*[height];
 		for(int i = 0; i < height; ++i){
@@ -142,7 +143,7 @@ public:
 			throw new exception;
 		}
 		int val;
-		SafeMatrix<T> res(0, height, 0, other.length);
+		SafeMatrix<T> res(0, height - 1, 0, other.length - 1);
 		for(int i = 0; i < res.height; ++i){
 			for(int j = 0; j < res.length; ++j){
 				val = 0;
@@ -203,8 +204,6 @@ public:
 
 template<class T>
 ostream& operator<<(ostream& os, SafeMatrix<T>& sm){
-	// cout << sm.top_index << " " << sm.bottom_index << endl;
-	// cout << sm.left_index << " " << sm.right_index << endl;
 	cout << endl;
 	for(int i = 0; i < sm.height; ++i){
 		for(int j = 0; j < sm.length; ++j){
@@ -217,34 +216,41 @@ ostream& operator<<(ostream& os, SafeMatrix<T>& sm){
 };
 
 int main(){
-	SafeMatrix<int> m(0, 2, 0, 2);
-	SafeMatrix<int> b(3, 5, 12, 14);
+	int mli = 0, mri = 13, mti = 0, mbi = 2;
+	int bli = 3, bri = 5, bti = 12, bbi = 34;
+	SafeMatrix<int> m(mli, mri, mti, mbi);
+	SafeMatrix<int> b(bli, bri, bti, bbi);
 
 	int count = 100;
 
-	for (int i = m.top_index; i <= m.bottom_index; ++i){
-		for(int j = m.left_index; j <= m.right_index; ++j){
+	for (int i = mti; i <= mbi; ++i){
+		for(int j = mli; j <= mri; ++j){
 			m[i][j] = ++count;
 		}
 	}
 
-	for (int i = b.top_index; i <= b.bottom_index; ++i){
-		for(int j = b.left_index; j <= b.right_index; ++j){
-			b[i][j] = (i - b.top_index == j - b.left_index) ? 1 : 0;
+	for (int i = bti; i <= bbi; ++i){
+		for(int j = bli; j <= bri; ++j){
+			b[i][j] = (i - bti == j - bli && i != bbi) ? 1 : 0;
 		}
 	}
 
 	cout << m << b;
 
+	b = m;
+
+	cout << b;
 
 
 
-	SafeMatrix<int> mult = m * b;
+
+
+	// SafeMatrix<int> mult = m * b;
 
 
 
 
-	cout << mult;
+	// cout << mult;
 
 
 	return 0;
