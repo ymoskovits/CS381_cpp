@@ -5,6 +5,8 @@
 //2x 4x^5 -3
 using namespace std;
 
+static ifstream in("input.txt");
+static ofstream out("output.txt");
 
 void add(double a[], double b[], double res[]){
 	for(int i = 0; i < 100; ++i){
@@ -36,26 +38,26 @@ void multiply(double a[], double b[], double res[]){
 }
 
 void print(double p[]){
-	cout << endl;
+	out << endl;
 	bool first_term = true;
 	for(int i = 99; i >= 0; --i){
 		if(p[i] != 0){
 			if(p[i] > 0 && !first_term){
-				cout << "+";
+				out << "+";
 			}
 			if(p[i] != 1){
-				cout << p[i];
+				out << p[i];
 			}
 			if(i != 0){
-				cout << "x";
+				out << "x";
 				if(i != 1){
-					cout << "^" << i;
+					out << "^" << i;
 				}
 			}
 			first_term = false;
 		}
 	}
-	cout << endl;
+	out << endl;
 }
 
 
@@ -64,8 +66,7 @@ int main(){
 	double coef;
 	int exp;
 	string line;
-	ifstream in("input.txt");
-	ofstream out("output.txt");
+
 
 	double polya[100] = {0}; // we will store the coeficients[4] = 12 for 12x^4
 	double polyb[100] = {0};
@@ -75,7 +76,7 @@ int main(){
 	//Get every pair of lines/polynomials;
 	while(getline(in, line)){
 		stringstream stream(line);
-		cout << line << endl;
+		out << line << endl;
 
 		//Zero out for next set
 		for(int i = 0; i < 100; ++i){
@@ -90,7 +91,7 @@ int main(){
 
 		getline(in, line);
 		stringstream streamb(line);
-		cout << line << endl;
+		out << line << endl;
 
 		while(streamb >> coef){
 			streamb >> exp;
@@ -99,13 +100,13 @@ int main(){
 
 		print(polya); print(polyb);
 		add(polya, polyb, ans);
-		cout << "\nAdded: ";	print(ans);
+		out << "\nAdded: ";	print(ans);
 
 		subtract(polya, polyb, ans);
-		cout << "\nSubtracted: ";	print(ans);
+		out << "\nSubtracted: ";	print(ans);
 
 		multiply(polya, polyb, ans);
-		cout << "\nmultiplied: ";	print(ans); cout << endl;
+		out << "\nmultiplied: ";	print(ans); out << endl;
 		
 	}
 
