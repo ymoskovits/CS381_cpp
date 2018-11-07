@@ -73,7 +73,7 @@ class VNT : private SafeMatrix<int>{
 			mp[i][j] = elem;
 
 
-			//solution might be to find the max of 2 parents and swap
+			//find the max of 2 parents and swap
 			while(i > 0 && j > 0){
 				if(mp[i][j] > mp[i-1][j] && mp[i][j] > mp[i][j-1]){
 					break;
@@ -88,6 +88,7 @@ class VNT : private SafeMatrix<int>{
 				}
 			}
 
+			//If at borders just propogate up.
 			while(i > 0 && mp[i][j] < mp[i-1][j]){
 					std::swap(mp[i][j], mp[i-1][j]);
 					i--;
@@ -107,9 +108,28 @@ class VNT : private SafeMatrix<int>{
 			int root = mp[0][0];
 			mp[0][0] = INT_MAX;
 			int i = 0, j = 0;
-			while(i < height)
-			while(mp[i+1][j] < mp[i][j] || mp[i][j+1] < mp[i][j]){
 
+			while(i < height - 1 && j < length - 1){
+				if(mp[i][j] < mp[i+1][j] && mp[i][j] < mp[i][j+1]){
+					break;
+				}
+				else if(mp[i+1][j] < mp[i][j+1]){
+					std::swap(mp[i][j], mp[i+1][j]);
+					i++;
+				}
+				else{
+					std::swap(mp[i][j], mp[i][j+1]);
+					j++;
+				}
+			}
+
+			while(i < height-1 && mp[i][j] > mp[i+1][j]){
+					std::swap(mp[i][j], mp[i+1][j]);
+					i++;
+			}
+			while(j < length-1 && mp[i][j] > mp[i][j+1]){
+					std::swap(mp[i][j], mp[i][j+1]);
+					j++;
 			}
 
 			return root;
@@ -130,16 +150,83 @@ class VNT : private SafeMatrix<int>{
 			}
 		}
 
+		void sort(int k[], int size){
+			int dim = sqrt(size) + 1;
+			VNT vnt(dim,dim);
+			for(int i = 0; i < size; ++i){
+				vnt.add(k[i]);
+			}
+
+			for(int i = 0; i < size; ++i){
+				k[i] = vnt.getMin();
+			}
+
+		}
+
+		bool find(int target){
+			if(target < mp[0][0]){
+				return false;
+			}
+			else if(target == mp[0][0]){
+				return true;
+			}
+
+			int maxrow = height-1, minrow = 0;
+			int maxcol = length-1, mincol = 0;
+			//narrow down to a range of rows.
+			while(mp[maxrow][0] > target){
+				--maxrow;
+			}
+			while(mp[minrow][length-1] < target){
+				++minrow;
+			}
+
+			maxcol = length-1;
+			mincol = 0;
+			//find the mincol
+			while(mp[maxrow][mincol] < target){
+				++mincol;
+			}
+			//find the maxcol
+			while(mp[minrow][maxcol] > target){
+				--maxcol;
+			}
+
+
+			for(int i = minrow; i <= maxrow; ++i){
+				for(int j = mincol; j <= maxcol; ++j){
+					if(mp[i][j] == target){
+ 						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+
 };
 
 int main(){
 	VNT a(3,10);
-	for(int i = 30; i > 0; --i){
+	for(int i = 59; i > 0; i-=2){
 		a.printmat();
 		cout << endl;
 		a.add(i);
 	}
 		a.printmat();
+
+	for (int i = 0; i < 10; ++i)
+	{
+		a.getMin();
+		cout << endl;
+		a.printmat();
+	}
+
+	for(int i = 0; i < 59; ++i){
+		cout << i << " ";
+		cout << a.find(i) << endl;
+	}
+
 
 
 }
