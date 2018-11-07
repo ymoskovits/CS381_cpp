@@ -26,29 +26,51 @@ class VNT : private SafeMatrix<int>{
 			if(size == capacity){
 				throw new exception;
 			}
-			int depth = (-1 + sqrt(1 + 8 * size)) / 2.0;
-			cout << depth << " ";
-			int offset = size - (depth * (depth+1)/2);
-			cout << offset << endl;
-			//This can be improved possibly
-			if(depth >= height-1){
-				cout << "HIT"; 
-				depth = height-1;
-				offset = 0;
-				while(mp[depth][offset + 1] != INT_MAX){
-					offset++;
+		
+			int i = 0, j = 0;
+			int potential_i, potential_j;
+			//while we dont have an available cell in col 1;
+			while(mp[i][j] != INT_MAX){
+				//if last row, move to the right
+				if(i == height-1){
+					while(mp[i][j] != INT_MAX){
+						if(j == length - 1){
+							cout << "We shouldnt get to this code because that means the container is full";
+							break;
+						}
+						++j;
+					}
+					break;
+					
 				}
-				while(mp[depth-1][offset+1] != INT_MAX){
-					depth--;
-					offset++;
+				i++;
+			}
+			//If the entire last diagonal was full well use this location.
+			potential_i = i;
+			potential_j = j;
+
+			//For now lets go back a diagonal and check if its full or not.
+			if(j > 0){
+				--j;
+			}else{
+				--i;
+			}
+
+			//now we have the i,j of the begining of diagonal to place elem.
+			while(true){
+				--i;
+				++j;
+				if(i < 0 || j > length-1){
+					i = potential_i;
+					j = potential_j;
+					break;
+				}
+				else if(mp[i][j] == INT_MAX){
+					break;
 				}
 			}
-			cout << depth << " " << offset << endl;
 
-
-			mp[depth][offset] = elem;
-
-			int i = depth, j = offset;
+			mp[i][j] = elem;
 
 			while(i > 0 && mp[i][j] < mp[i-1][j]){
 					std::swap(mp[i][j], mp[i-1][j]);
@@ -62,20 +84,20 @@ class VNT : private SafeMatrix<int>{
 			++size;
 		}
 
-		// int min(){
-		// 	if(size == 0){
-		// 		throw new exception;
-		// 	}
-		// 	int root = mp[0][0];
-		// 	mp[0][0] = INT_MAX;
-		// 	int i = 0, j = 0;
-		// 	while(i < height)
-		// 	while(mp[i+1][j] < mp[i][j] || mp[i][j+1] < mp[i][j]){
+		int min(){
+			if(size == 0){
+				throw new exception;
+			}
+			int root = mp[0][0];
+			mp[0][0] = INT_MAX;
+			int i = 0, j = 0;
+			while(i < height)
+			while(mp[i+1][j] < mp[i][j] || mp[i][j+1] < mp[i][j]){
 
-		// 	}
+			}
 
-		// 	return root;
-		// }
+			return root;
+		}
 
 		void printmat(){
 			for(int i = 0; i < height; ++i){
