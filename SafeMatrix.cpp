@@ -215,46 +215,46 @@ ostream& operator<<(ostream& os, SafeMatrix<T>& sm){
 	return os;
 };
 
-int main(){
-	int mli = 0, mri = 13, mti = 0, mbi = 2;
-	int bli = 3, bri = 5, bti = 12, bbi = 34;
-	SafeMatrix<int> m(mli, mri, mti, mbi);
-	SafeMatrix<int> b(bli, bri, bti, bbi);
+// int main(){
+// 	int mli = 0, mri = 13, mti = 0, mbi = 2;
+// 	int bli = 3, bri = 5, bti = 12, bbi = 34;
+// 	SafeMatrix<int> m(mli, mri, mti, mbi);
+// 	SafeMatrix<int> b(bli, bri, bti, bbi);
 
-	int count = 100;
+// 	int count = 100;
 
-	for (int i = mti; i <= mbi; ++i){
-		for(int j = mli; j <= mri; ++j){
-			m[i][j] = ++count;
-		}
-	}
+// 	for (int i = mti; i <= mbi; ++i){
+// 		for(int j = mli; j <= mri; ++j){
+// 			m[i][j] = ++count;
+// 		}
+// 	}
 
-	for (int i = bti; i <= bbi; ++i){
-		for(int j = bli; j <= bri; ++j){
-			b[i][j] = (i - bti == j - bli && i != bbi) ? 1 : 0;
-		}
-	}
+// 	for (int i = bti; i <= bbi; ++i){
+// 		for(int j = bli; j <= bri; ++j){
+// 			b[i][j] = (i - bti == j - bli && i != bbi) ? 1 : 0;
+// 		}
+// 	}
 
-	cout << m << b;
+// 	cout << m << b;
 
-	b = m;
+// 	b = m;
 
-	cout << b;
-
-
-
-
-
-	// SafeMatrix<int> mult = m * b;
+// 	cout << b;
 
 
 
 
-	// cout << mult;
+
+// 	// SafeMatrix<int> mult = m * b;
 
 
-	return 0;
-}
+
+
+// 	// cout << mult;
+
+
+// 	return 0;
+// }
 
 
 
