@@ -5,7 +5,7 @@
 
 /*
 TODO:
-	Edit so that we dont make mp it too big (off by one)
+	Change the propogate up so that it goes along the diagonal until a border instead of along a border.
 */ 
 
 class VNT : private SafeMatrix<int>{
@@ -72,6 +72,22 @@ class VNT : private SafeMatrix<int>{
 
 			mp[i][j] = elem;
 
+
+			//solution might be to find the max of 2 parents and swap
+			while(i > 0 && j > 0){
+				if(mp[i][j] > mp[i-1][j] && mp[i][j] > mp[i][j-1]){
+					break;
+				}
+				else if(mp[i-1][j] > mp[i][j-1]){
+					std::swap(mp[i][j], mp[i-1][j]);
+					i--;
+				}
+				else{
+					std::swap(mp[i][j], mp[i][j-1]);
+					j--;
+				}
+			}
+
 			while(i > 0 && mp[i][j] < mp[i-1][j]){
 					std::swap(mp[i][j], mp[i-1][j]);
 					i--;
@@ -84,7 +100,7 @@ class VNT : private SafeMatrix<int>{
 			++size;
 		}
 
-		int min(){
+		int getMin(){
 			if(size == 0){
 				throw new exception;
 			}
@@ -117,10 +133,14 @@ class VNT : private SafeMatrix<int>{
 };
 
 int main(){
-	VNT a(10,10);
-	for(int i = 99; i > 0; --i){
+	VNT a(3,10);
+	for(int i = 30; i > 0; --i){
+		a.printmat();
+		cout << endl;
 		a.add(i);
 	}
-	a.printmat();
+		a.printmat();
+
+
 }
 
