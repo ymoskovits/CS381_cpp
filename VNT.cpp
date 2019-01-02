@@ -207,27 +207,31 @@ class VNT : private SafeMatrix<int>{
 };
 
 int main(){
-	VNT a(3,10);
-	for(int i = 59; i > 0; i-=2){
-		a.printmat();
-		cout << endl;
-		a.add(i);
-	}
-		a.printmat();
 
-	for (int i = 0; i < 10; ++i)
-	{
-		a.getMin();
-		cout << endl;
-		a.printmat();
-	}
-
-	for(int i = 0; i < 59; ++i){
-		cout << i << " ";
-		cout << a.find(i) << endl;
-	}
-
-
+    VNT a(5,6);
+    
+    for(int i=0;i<30;i++){
+        a.add(i*i);
+    }
+    if(a.find(25)){
+        cout<<"Found 25 int VNT table\n";
+    }
+    if(!a.find(26)){
+        cout<<"26 is not in the VNT table\n";
+    }
+    cout<<"The minimum value in VNT table is: "<<a.getMin()<<endl;
+    
+    int arr[10]= {2,6,9,0,3,1,8,4,7,5};
+    cout<<"Unsorted array is:\n";
+    for(auto e:arr)
+        cout<<e<<" ";
+    cout<<endl;
+    
+    a.sort(arr,10);
+    cout<<"Sorted Array is:\n";
+    for(auto e:arr)
+        cout<<e<<" ";
+    cout<<endl;
 
 }
 
